@@ -316,6 +316,75 @@ app.get('/teams', (req, res) => {
   });
 });
 
+// Show the find team form
+app.get('/find-team', (req, res) => {
+  res.render('find-team.ejs');
+});
+
+// Process the form and find closest team
+app.post('/find-my-team', (req, res) => {
+  var userCity = req.body.city.trim();
+  var userState = req.body.state.trim();
+  
+  console.log('User searching for:', userCity, userState); // Debug log
+  
+  Team.find({}, (err, teams) => {
+    if (err) return res.send('Error: ' + err);
+    
+    if (teams.length === 0) {
+      return res.send('No teams in database. Please run /setup-teams first.');
+    }
+    
+    console.log('Total teams found:', teams.length); // Debug log
+    
+    // Find the closest team
+    var closestTeam = null;
+    var shortestDistance = Infinity;
+    
+    teams.forEach(function(team) {
+      var distance = 1000; // Default: very far
+      
+      // Case-insensitive matching
+      var teamState = team.state.toLowerCase();
+      var teamCity = team.city.toLowerCase();
+      var searchState = userState.toLowerCase();
+      var searchCity = userCity.toLowerCase();
+      
+      // Same city = closest!
+      if (teamCity === searchCity && teamState === searchState) {
+        distance = 5;
+      }
+      // Same state = pretty close
+      else if (teamState === searchState) {
+        distance = 100;
+      }
+      // Different state = far
+      else {
+        distance = 500;
+      }
+      
+      console.log(team.name + ': ' + distance + ' miles'); // Debug log
+      
+      if (distance < shortestDistance) {
+        shortestDistance = distance;
+        closestTeam = team;
+      }
+    });
+    
+    if (!closestTeam) {
+      return res.send('Could not find a team. Please try again.');
+    }
+    
+    console.log('Closest team:', closestTeam.name); // Debug log
+    
+    res.render('results.ejs', {
+      team: closestTeam,
+      distance: shortestDistance
+    });
+  });
+});
+
+
 // normal routes ===============================================================
 
     // show the home page (will also have our login links)
@@ -325,14 +394,14 @@ app.get('/teams', (req, res) => {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        db.collection('messages').find().toArray((err, result) => {
-          if (err) return console.log(err)
-          res.render('profile.ejs', {
-            user : req.user,
-            messages: result
-          })
-        })
-    });
+    db.collection('messages').find().toArray((err, result) => {
+      if (err) return console.log(err)
+      res.render('find-team.ejs', {  // ← CHANGED THIS LINE
+        user : req.user,
+        messages: result
+      })
+    })
+});
 
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
