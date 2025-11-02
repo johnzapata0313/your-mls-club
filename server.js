@@ -20,11 +20,19 @@ var configDB = require('./config/database.js');
 var db
 
 // configuration ===============================================================
-mongoose.connect(configDB.url, (err, database) => {
-  if (err) return console.log(err)
-  db = database
+mongoose.connect(configDB.url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  dbName: configDB.dbName
+})
+.then(() => {
+  console.log('MongoDB connected successfully to database:', configDB.dbName)
+  db = mongoose.connection
   require('./app/routes.js')(app, passport, db);
-}); // connect to our database
+})
+.catch(err => {
+  console.error('MongoDB connection error:', err)
+});
 
 require('./config/passport')(passport); // pass passport for configuration
 
