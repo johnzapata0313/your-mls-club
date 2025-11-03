@@ -9,15 +9,18 @@
     <div class="container">
         <div class="result-box">
             <h1><span class="fa fa-futbol-o"></span> Your Closest MLS Team Is:</h1>
+            <!-- //used claude to change the logo -->
+
             <div class="team-name"><%= team.name %></div>
             
             <div class="distance">
                 📍 Approximately <%= distance %> miles away
             </div>
             
+            <!-- Used claude for assistance with the format of my page -->
             <div class="info">
                 <p><strong> Stadium:</strong> <%= team.stadium %></p>
-                <p><strong>📍 Location:</strong> <%= team.city %>, <%= team.state %></p>
+                <p><strong> Location:</strong> <%= team.city %>, <%= team.state %></p>
                 <p><strong> Founded:</strong> <%= team.founded %></p>
                 <p><strong> Team Colors:</strong></p>
                 <div class="colors">

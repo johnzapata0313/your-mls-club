@@ -1,3 +1,5 @@
+//Worked with Waskar Paulino on this
+//Looked up on Claude what I needed to create my Schema for this projectß
 // app/models/team.js
 var mongoose = require('mongoose');
 

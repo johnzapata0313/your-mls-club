@@ -7,7 +7,7 @@ var Team = require('./models/team');
 app.get('/setup-teams', (req, res) => {
   Team.deleteMany({}, (err) => {
     if (err) return res.send('Error clearing teams: ' + err);
-    
+    //used claude for my research for all 30 MLS Clubs
     var mlsTeams = [
       {
         name: "Atlanta United FC",
@@ -316,17 +316,17 @@ app.get('/teams', (req, res) => {
   });
 });
 
-// Show the find team form
+// the form for find my team
 app.get('/find-team', (req, res) => {
   res.render('find-team.ejs');
 });
 
-// Process the form and find closest team
+//take info from the form and produce the closest club in distance
 app.post('/find-my-team', (req, res) => {
   var userCity = req.body.city.trim();
   var userState = req.body.state.trim();
   
-  console.log('User searching for:', userCity, userState); // Debug log
+  console.log('User searching for:', userCity, userState); 
   
   Team.find({}, (err, teams) => {
     if (err) return res.send('Error: ' + err);
@@ -335,14 +335,15 @@ app.post('/find-my-team', (req, res) => {
       return res.send('No teams in database. Please run /setup-teams first.');
     }
     
-    console.log('Total teams found:', teams.length); // Debug log
+    console.log('Total teams found:', teams.length);
     
-    // Find the closest team
+    //340-378 used claude for assistance to build logic on how to find your closest club
+    // closest club
     var closestTeam = null;
     var shortestDistance = Infinity;
     
     teams.forEach(function(team) {
-      var distance = 1000; // Default: very far
+      var distance = 1000; 
       
       // Case-insensitive matching
       var teamState = team.state.toLowerCase();
