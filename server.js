@@ -4,7 +4,11 @@
 // get all the tools we need
 var express  = require('express');
 var app      = express();
+<<<<<<< HEAD
 var port     = process.env.PORT || 1996;
+=======
+var port     = process.env.PORT || 8080;
+>>>>>>> 0c90dbda2757f09b98375026164fd4ab0f19e187
 const MongoClient = require('mongodb').MongoClient
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -20,6 +24,7 @@ var configDB = require('./config/database.js');
 var db
 
 // configuration ===============================================================
+<<<<<<< HEAD
 mongoose.connect(configDB.url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -33,6 +38,13 @@ mongoose.connect(configDB.url, {
 .catch(err => {
   console.error('MongoDB connection error:', err)
 });
+=======
+mongoose.connect(configDB.url, (err, database) => {
+  if (err) return console.log(err)
+  db = database
+  require('./app/routes.js')(app, passport, db);
+}); // connect to our database
+>>>>>>> 0c90dbda2757f09b98375026164fd4ab0f19e187
 
 require('./config/passport')(passport); // pass passport for configuration
 

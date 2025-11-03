@@ -1,5 +1,6 @@
 module.exports = function(app, passport, db) {
 
+<<<<<<< HEAD
 // MLS TEAM ROUTES ===============================================================
 var Team = require('./models/team');
 
@@ -386,6 +387,8 @@ app.post('/find-my-team', (req, res) => {
 });
 
 
+=======
+>>>>>>> 0c90dbda2757f09b98375026164fd4ab0f19e187
 // normal routes ===============================================================
 
     // show the home page (will also have our login links)
@@ -395,6 +398,7 @@ app.post('/find-my-team', (req, res) => {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
+<<<<<<< HEAD
     db.collection('messages').find().toArray((err, result) => {
       if (err) return console.log(err)
       res.render('find-team.ejs', {  // ← CHANGED THIS LINE
@@ -403,6 +407,16 @@ app.post('/find-my-team', (req, res) => {
       })
     })
 });
+=======
+        db.collection('messages').find().toArray((err, result) => {
+          if (err) return console.log(err)
+          res.render('profile.ejs', {
+            user : req.user,
+            messages: result
+          })
+        })
+    });
+>>>>>>> 0c90dbda2757f09b98375026164fd4ab0f19e187
 
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
@@ -412,8 +426,13 @@ app.post('/find-my-team', (req, res) => {
 
 // message board routes ===============================================================
 
+<<<<<<< HEAD
     app.post('/zipcode', (req, res) => {
       db.collection('zipcode').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+=======
+    app.post('/messages', (req, res) => {
+      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+>>>>>>> 0c90dbda2757f09b98375026164fd4ab0f19e187
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/profile')
@@ -513,4 +532,8 @@ function isLoggedIn(req, res, next) {
         return next();
 
     res.redirect('/');
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 0c90dbda2757f09b98375026164fd4ab0f19e187
