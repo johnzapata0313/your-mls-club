@@ -1,39 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Your MLS Team</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Your MLS Team</title>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  /* Dynamic gradient background using team colors */
+  body {
+    <% if (team.colors.length === 1) { %>
+      background: <%= team.colors[0] %>;
+    <% } else if (team.colors.length === 2) { %>
+      background: linear-gradient(135deg, <%= team.colors[0] %> 0%, <%= team.colors[1] %> 100%);
+    <% } else if (team.colors.length >= 3) { %>
+      background: linear-gradient(135deg, <%= team.colors[0] %> 0%, <%= team.colors[1] %> 50%, <%= team.colors[2] %> 100%);
+    <% } %>
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 0;
+  }
+  
+  .container {
+    margin-top: 50px;
+  }
+  
+  .result-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  h1 {
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .team-name {
+    font-size: 48px;
+    font-weight: bold;
+    color: <%= team.colors[0] %>;
+    margin: 20px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .distance {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .info {
+    margin: 30px 0;
+    font-size: 18px;
+  }
+  
+  .info p {
+    margin: 10px 0;
+  }
+  
+  .colors {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .color-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .back-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 30px;
+    background-color: <%= team.colors[0] %>;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: all 0.3s ease;
+  }
+  
+  .back-btn:hover {
+    background-color: <%= team.colors[1] || team.colors[0] %>;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    color: white;
+    text-decoration: none;
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="result-box">
-            <h1><span class="fa fa-futbol-o"></span> Your Closest MLS Team Is:</h1>
-            <!-- //used claude to change the logo -->
-
-            <div class="team-name"><%= team.name %></div>
-            
-            <div class="distance">
-                📍 Approximately <%= distance %> miles away
-            </div>
-            
-            <!-- Used claude for assistance with the format of my page -->
-            <div class="info">
-                <p><strong> Stadium:</strong> <%= team.stadium %></p>
-                <p><strong> Location:</strong> <%= team.city %>, <%= team.state %></p>
-                <p><strong> Founded:</strong> <%= team.founded %></p>
-                <p><strong> Team Colors:</strong></p>
-                <div class="colors">
-                    <% team.colors.forEach(function(color) { %>
-                        <div class="color-box" style="background-color: <%= color %>;" title="<%= color %>"></div>
-                    <% }); %>
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <a href="/find-team" class="back-btn">← Find Another Team</a>
-            </div>
-        </div>
-    </div>
+<div class="container">
+<div class="result-box">
+<h1><span class="fa fa-futbol-o"></span> Your Closest MLS Team Is:</h1>
+<!-- //used claude to change the logo -->
+<div class="team-name"><%= team.name %></div>
+<div class="distance">
+                 Approximately <%= distance %> miles away
+</div>
+<!-- Used claude for assistance with the format of my page -->
+<div class="info">
+<p><strong> Stadium:</strong> <%= team.stadium %></p>
+<p><strong> Location:</strong> <%= team.city %>, <%= team.state %></p>
+<p><strong> Founded:</strong> <%= team.founded %></p>
+<p><strong> Team Colors:</strong></p>
+<div class="colors">
+<% team.colors.forEach(function(color) { %>
+<div class="color-box" style="background-color: <%= color %>;" title="<%= color %>"></div>
+<% }); %>
+</div>
+</div>
+<div class="text-center">
+<a href="/find-team" class="back-btn">← Find Another Team</a>
+</div>
+</div>
+</div>
 </body>
-</html> 
+</html>

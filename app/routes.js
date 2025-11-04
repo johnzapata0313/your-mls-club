@@ -1,6 +1,5 @@
 module.exports = function(app, passport, db) {
 
-<<<<<<< HEAD
 // MLS TEAM ROUTES ===============================================================
 var Team = require('./models/team');
 
@@ -38,7 +37,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -80.8531,
         stadium: "Bank of America Stadium",
         founded: 2019,
-        colors: ["Blue", "Black", "White"]
+        colors: ["light Blue", "Black", "White"]
       },
       {
         name: "Chicago Fire FC",
@@ -48,7 +47,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -87.8072,
         stadium: "Soldier Field",
         founded: 1997,
-        colors: ["Red", "White", "Blue"]
+        colors: ["Red", "White", "Navy"]
       },
       {
         name: "FC Cincinnati",
@@ -58,7 +57,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -84.5203,
         stadium: "TQL Stadium",
         founded: 2015,
-        colors: ["Orange", "Blue"]
+        colors: ["Orange", "Blue", "White"]
       },
       {
         name: "Colorado Rapids",
@@ -78,7 +77,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -83.0183,
         stadium: "Lower.com Field",
         founded: 1994,
-        colors: ["Black", "Gold"]
+        colors: ["Black", "Yellow"]
       },
       {
         name: "D.C. United",
@@ -88,7 +87,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -77.0120,
         stadium: "Audi Field",
         founded: 1995,
-        colors: ["Black", "Red"]
+        colors: ["Black", "White", "Red"]
       },
       {
         name: "FC Dallas",
@@ -98,7 +97,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -96.8352,
         stadium: "Toyota Stadium",
         founded: 1995,
-        colors: ["Red", "Blue"]
+        colors: ["Red", "Blue", "White"]
       },
       {
         name: "Houston Dynamo FC",
@@ -108,7 +107,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -95.3517,
         stadium: "Shell Energy Stadium",
         founded: 2005,
-        colors: ["Orange", "Black"]
+        colors: ["Orange", "White", "Black"]
       },
       {
         name: "Inter Miami CF",
@@ -118,7 +117,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -80.1647,
         stadium: "Chase Stadium",
         founded: 2018,
-        colors: ["Pink", "Black"]
+        colors: ["Pink", "Black", "White"]
       },
       {
         name: "LA Galaxy",
@@ -128,7 +127,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -118.2611,
         stadium: "Dignity Health Sports Park",
         founded: 1995,
-        colors: ["Navy Blue", "Gold", "White"]
+         colors: ["#00245D", "#fcdf05ff", "#FFFFFF"]
       },
       {
         name: "Los Angeles FC",
@@ -148,7 +147,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -93.1650,
         stadium: "Allianz Field",
         founded: 2015,
-        colors: ["Blue", "Gray", "Black"]
+        colors: ["Light Blue", "Gray", "Black"]
       },
       {
         name: "CF Montréal",
@@ -158,7 +157,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -73.5529,
         stadium: "Stade Saputo",
         founded: 1992,
-        colors: ["Blue", "Black"]
+        colors: ["Blue", "Black", "White"]
       },
       {
         name: "Nashville SC",
@@ -168,7 +167,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -86.7661,
         stadium: "GEODIS Park",
         founded: 2016,
-        colors: ["Navy", "Gold"]
+        colors: ["Navy", "Yellow"]
       },
       {
         name: "New England Revolution",
@@ -188,7 +187,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -73.9262,
         stadium: "Yankee Stadium",
         founded: 2013,
-        colors: ["Sky Blue", "Navy"]
+        colors: ["Sky Blue", "Navy", "White"]
       },
       {
         name: "New York Red Bulls",
@@ -268,7 +267,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -94.8233,
         stadium: "Children's Mercy Park",
         founded: 1995,
-        colors: ["Blue", "Navy"]
+        colors: ["light Blue", "Navy"]
       },
       {
         name: "St. Louis City SC",
@@ -278,7 +277,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -90.2109,
         stadium: "CityPark",
         founded: 2019,
-        colors: ["Red", "Navy", "Light Blue"]
+        colors: ["Salmon", "Navy", "white"]
       },
       {
         name: "Toronto FC",
@@ -288,7 +287,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -79.4189,
         stadium: "BMO Field",
         founded: 2005,
-        colors: ["Red", "Gray"]
+        colors: ["Red", "Gray", "white"]
       },
       {
         name: "Vancouver Whitecaps FC",
@@ -298,7 +297,7 @@ app.get('/setup-teams', (req, res) => {
         longitude: -123.1119,
         stadium: "BC Place",
         founded: 2009,
-        colors: ["Blue", "White"]
+        colors: ["Navy", "Light Blue", "White"]
       }
     ];
     
@@ -318,8 +317,14 @@ app.get('/teams', (req, res) => {
 });
 
 // the form for find my team
-app.get('/find-team', (req, res) => {
-  res.render('find-team.ejs');
+app.get('/find-team', isLoggedIn, function(req, res) {
+  db.collection('messages').find().toArray((err, result) => {
+    if (err) return console.log(err)
+    res.render('find-team.ejs', {
+      user: req.user,
+      messages: result  // ← Add messages data!
+    });
+  });
 });
 
 //take info from the form and produce the closest club in distance
@@ -387,8 +392,6 @@ app.post('/find-my-team', (req, res) => {
 });
 
 
-=======
->>>>>>> 0c90dbda2757f09b98375026164fd4ab0f19e187
 // normal routes ===============================================================
 
     // show the home page (will also have our login links)
@@ -398,16 +401,6 @@ app.post('/find-my-team', (req, res) => {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-<<<<<<< HEAD
-    db.collection('messages').find().toArray((err, result) => {
-      if (err) return console.log(err)
-      res.render('find-team.ejs', {  // ← CHANGED THIS LINE
-        user : req.user,
-        messages: result
-      })
-    })
-});
-=======
         db.collection('messages').find().toArray((err, result) => {
           if (err) return console.log(err)
           res.render('profile.ejs', {
@@ -416,7 +409,6 @@ app.post('/find-my-team', (req, res) => {
           })
         })
     });
->>>>>>> 0c90dbda2757f09b98375026164fd4ab0f19e187
 
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
@@ -426,13 +418,16 @@ app.post('/find-my-team', (req, res) => {
 
 // message board routes ===============================================================
 
-<<<<<<< HEAD
     app.post('/zipcode', (req, res) => {
       db.collection('zipcode').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
-=======
+        if (err) return console.log(err)
+        console.log('saved to database')
+        res.redirect('/profile')
+      })
+    })
+
     app.post('/messages', (req, res) => {
       db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
->>>>>>> 0c90dbda2757f09b98375026164fd4ab0f19e187
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/profile')
@@ -440,34 +435,34 @@ app.post('/find-my-team', (req, res) => {
     })
 
     app.put('/messages/thumbUp', (req, res) => {
-  db.collection('messages')
-  .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-    $set: {
-      thumbUp:req.body.thumbUp + 1
-    }
-  }, {
-    sort: {_id: -1},
-    upsert: true
-  }, (err, result) => {
-    if (err) return res.send(err)
-    res.send(result)
-  })
-})
+      db.collection('messages')
+      .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
+        $set: {
+          thumbUp:req.body.thumbUp + 1
+        }
+      }, {
+        sort: {_id: -1},
+        upsert: true
+      }, (err, result) => {
+        if (err) return res.send(err)
+        res.send(result)
+      })
+    })
 
-app.put('/messages/thumbDown', (req, res) => {
-  db.collection('messages')
-  .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-    $inc: {
-      thumbDown: 1
-    }
-  }, {
-    sort: {_id: -1},
-    upsert: true
-  }, (err, result) => {
-    if (err) return res.send(err)
-    res.send(result)
-  })
-})
+    app.put('/messages/thumbDown', (req, res) => {
+      db.collection('messages')
+      .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
+        $inc: {
+          thumbDown: 1
+        }
+      }, {
+        sort: {_id: -1},
+        upsert: true
+      }, (err, result) => {
+        if (err) return res.send(err)
+        res.send(result)
+      })
+    })
 
     app.delete('/messages', (req, res) => {
       db.collection('messages').findOneAndDelete({name: req.body.name, msg: req.body.msg}, (err, result) => {
@@ -489,7 +484,7 @@ app.put('/messages/thumbDown', (req, res) => {
 
         // process the login form
         app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/profile', // redirect to the secure profile section
+            successRedirect : '/find-team', // redirect to find your mls club
             failureRedirect : '/login', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
@@ -502,7 +497,7 @@ app.put('/messages/thumbDown', (req, res) => {
 
         // process the signup form
         app.post('/signup', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
+            successRedirect : '/find-team', // redirect to find your MLS club
             failureRedirect : '/signup', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
@@ -520,11 +515,10 @@ app.put('/messages/thumbDown', (req, res) => {
         user.local.email    = undefined;
         user.local.password = undefined;
         user.save(function(err) {
-            res.redirect('/profile');
+            res.redirect('/find-team');
         });
     });
 
-};
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
@@ -532,8 +526,6 @@ function isLoggedIn(req, res, next) {
         return next();
 
     res.redirect('/');
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0c90dbda2757f09b98375026164fd4ab0f19e187
+
+};
